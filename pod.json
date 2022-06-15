@@ -1,0 +1,21 @@
+{"user":{ 
+    "_id": "ObjectID",
+    "email": "string",
+    "username": "string" },
+
+
+"podcast":{
+    "_id": "ObjectID",
+    "mame-podcast": "string",
+    "voise-podcast": [],
+    "userID":{
+        "type":"ObjectID",
+        "ref":"user",
+        "required":true
+    },
+    "comments":"string",
+    "tags":"string"
+    
+    
+}
+}
