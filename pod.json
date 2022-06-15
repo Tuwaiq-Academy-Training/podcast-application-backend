@@ -14,7 +14,7 @@
         "required":true
     },
     "comments":"string",
-    "tags":"string"
+    "tags":["string"]
     
     
 }
