@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/podcastApp')
-const express = require("express")
+const express= require('express');
+
 const app = express();
-app.use(express.urlencoded({extended:false}))
-app.use(express.json())
-app.listen(3000,()=> console.log('express started'))
+app.use(express.json());
+
+mongoose.connect('mongodb://localhost:27017/podcastApp');
+
 
 //Schema 1
-const userSchema =mongoose.Schema({
+const userSchema = mongoose.Schema({
     name: { type:String,
       required:true
   },
@@ -15,37 +16,38 @@ const userSchema =mongoose.Schema({
       gander:String,
       email:String
   })
-  const users= mongoose.model('user',userSchema);
 
   //Schema 2
-    const commentSchema =mongoose.Schema({
-        descirption:String,
-        userID:{
-            type:mongoose.ObjectId,
-            ref:'user',
-            required:true
-          },
-          podcastID:{
-              type:mongoose.ObjectId,
-              ref:'podcast',
-              required:true
-          }
-      })
-  const comments= mongoose.model('comment',commentSchema);
-//Schema 3
-  const podcastSchema =mongoose.Schema({
-      name_podcast: String,
-      userID:{
-          type:mongoose.ObjectId,
-          ref:'user',
-          required:true
-        },
-        comments:{
-            type: [mongoose.ObjectId],
-            ref:"comment"
-        },
-    tags:String
-  })
+const podcastSchema =mongoose.Schema({
+    name_podcast: String,
+    userID:{
+        type:mongoose.ObjectId,
+        ref:'user',
+        //required:true
+      },
+      comments:{
+          type: [mongoose.ObjectId],
+          ref:"comment"
+      },
+      tags:String
+    })
+
+    //Schema 3
+const commentSchema =mongoose.Schema({
+    descirption:String,
+    userID:{
+        type:mongoose.ObjectId,
+        ref:'user',
+        required:true
+    },
+    podcastID:{
+        type:mongoose.ObjectId,
+        ref:'podcast',
+        required:true
+    }
+})
+const users= mongoose.model('user',userSchema);
+const comments= mongoose.model('comment',commentSchema);
 const podcasts= mongoose.model('podcast',podcastSchema);
 
 //insert podcast
@@ -68,9 +70,7 @@ app.delete("/podcast/delete", (req, res) => {
 app.get('/podcast', (req,res)=>{podcasts.find({}).then
 ((data)=>{ res.json(data); })})
 
-
-
-
+//
 app.get('/users',(req,res)=>{
     users.find({}).then((data)=>{
         res.json(data)
@@ -90,3 +90,4 @@ app.delete('/user/delete/:id',(req,res)=>{
         res.json({'mes' : "user deleted"})
     })
 })
+ app.listen(3000,()=>{console.log("express started !")})
