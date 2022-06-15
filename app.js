@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
-const express= require('express');
-
+const mongoose = require("mongoose");
+const express = require("express");
 const app = express();
 app.use(express.json());
 
@@ -16,49 +15,37 @@ const userSchema = mongoose.Schema({
       gander:String,
       email:String
   })
-
-  //Schema 2
-const podcastSchema =mongoose.Schema({
-    name_podcast: String,
-    userID:{
-        type:mongoose.ObjectId,
-        ref:'user',
-        //required:true
-      },
-      comments:{
-          type: [mongoose.ObjectId],
-          ref:"comment"
-      },
-      tags:String
-    })
-
-    //Schema 3
-const commentSchema =mongoose.Schema({
-    descirption:String,
-    userID:{
-        type:mongoose.ObjectId,
-        ref:'user',
-        required:true
-    },
-    podcastID:{
-        type:mongoose.ObjectId,
-        ref:'podcast',
-        required:true
-    }
-})
-const users= mongoose.model('user',userSchema);
-const comments= mongoose.model('comment',commentSchema);
+  const users= mongoose.model('user',userSchema);
+  //Schema 3
+    const commentSchema =mongoose.Schema({
+        descirption:String,
+        userID:{
+            type:mongoose.ObjectId,
+            ref:'user',
+            required:true
+          },
+          podcastID:{
+              type:mongoose.ObjectId,
+              ref:'podcast',
+              required:true
+          }
+      })
+  const comments= mongoose.model('comment',commentSchema);
+//Schema 2
+  const podcastSchema =mongoose.Schema({
+      name_podcast: String,
+      userID:{
+          type:mongoose.ObjectId,
+          ref:'user',
+          //required:true
+        },
+        comments:{
+            type: [mongoose.ObjectId],
+            ref:"comment"
+        },
+    tags:String
+  })
 const podcasts= mongoose.model('podcast',podcastSchema);
-
-//insert podcast
-app.post('/podcast/create', (req,res)=>{
-    new podcasts((req.body)).save().then(() => res.json({msg:"podcast created successfully >o<"}));
-})
-//update podcast
-app.put('/podcast/update/', (req,res)=>{
-    podcasts.updateOne(req.body).then(()=>{res.json({msg:"Yay the Podcast is updated successfully +_+"})
-   })
- })
 
  //delete podcast
 app.delete("/podcast/delete", (req, res) => {
